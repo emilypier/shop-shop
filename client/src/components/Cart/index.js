@@ -1,12 +1,26 @@
-import React from 'react';
-import CartItem from '../CartItem';
-import Auth from '../../utils/auth';
-import './style.css';
-import { useStoreContext } from '../../utils/GlobalState';
-import { TOGGLE_CART } from '../../utils/actions';
+import React, { useEffect } from "react";
+import { idbPromise } from "../../utils/helpers"
+import CartItem from "../CartItem";
+import Auth from "../../utils/auth";
+import { useStoreContext } from "../../utils/GlobalState";
+import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from "../../utils/actions";
+import "./style.css";
 
 const Cart = () => {
   const [state, dispatch] = useStoreContext();
+
+  // retrieve items in the cart
+  useEffect(() => {
+    async function getCart() {
+      const cart = await idbPromise('cart', 'get');
+      dispatch({ type: ADD_MULTIPLE_TO_CART, products: [...cart] });
+    };
+  
+    if (!state.cart.length) {
+      getCart();
+    }
+  // The Hook runs on load no matter what, but then it only runs again if any value in dependency array has changed since the last time it ran
+  }, [state.cart.length, dispatch]);
 
   function toggleCart() {
     dispatch({ type: TOGGLE_CART });
