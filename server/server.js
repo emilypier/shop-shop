@@ -14,6 +14,11 @@ const server = new ApolloServer({
   context: authMiddleware
 });
 
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/shop-shop-db', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
 server.applyMiddleware({ app });
 
 app.use(express.urlencoded({ extended: false }));
