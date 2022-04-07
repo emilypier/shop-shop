@@ -32,9 +32,10 @@ This application is covered under MIT license.
 
 ## Built With
 * JavaScript
+* React
+* Mongoose
 * Express.js
 * Node.js
-* React
 
 ## Questions
 Made by Emily Pierson.
